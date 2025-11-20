@@ -1,0 +1,25 @@
+{
+  "clientes": [
+    {
+      "id": "679a",
+      "nombre": "Alvaro",
+      "apellido1": "Martinez",
+      "apellido2": "Sagrista",
+      "direccion": "avenia costa de la luz",
+      "telefono": "635159343",
+      "sexo": "hombre"
+    },
+    {
+      "id": "3c0d",
+      "nombre": "Inma",
+      "apellido1": "Ruiz",
+      "apellido2": "Rodriguez",
+      "direccion": "647140502",
+      "telefono": "647140502",
+      "sexo": "mujer"
+    }
+  ],
+  "configuracion": {
+    "version": "1.0"
+  }
+}
