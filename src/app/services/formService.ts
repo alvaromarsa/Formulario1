@@ -19,10 +19,22 @@ export class FormService {
   );
 
   public formularioCliente = new FormGroup({
-    nombre: new FormControl('', Validators.required),
-    apellido1: new FormControl('', Validators.required),
-    apellido2: new FormControl('', Validators.required),
-    direccion: new FormControl('', Validators.required),
+    nombre: new FormControl('', [
+      Validators.required,
+      Validators.pattern('[a-zA-Z ]*'),
+    ]),
+    apellido1: new FormControl('', [
+      Validators.required,
+      Validators.pattern('[a-zA-Z ]*'),
+    ]),
+    apellido2: new FormControl('', [
+      Validators.required,
+      Validators.pattern('[a-zA-Z ]*'),
+    ]),
+    direccion: new FormControl('', [
+      Validators.required,
+      Validators.pattern('[a-zA-Z ]*'),
+    ]),
     telefono: new FormControl('',[
       Validators.required,
       Validators.pattern('^[0-9]+$'),
@@ -59,5 +71,24 @@ export class FormService {
 // 3. Método para obtener la lista (solo devuelve la propiedad clientes$ ya encadenada)
   getClientes(): Observable<Cliente[]> {
     return this.clientes$;
+  }
+
+  // Actualiza un cliente existente (PUT) y fuerza recarga
+  actualizarCliente(cliente: Cliente): Observable<Cliente> | null {
+    if (!cliente.id) return null;
+
+    const url = `${this.backendUrl}/${cliente.id}`;
+    return this.http.put<Cliente>(url, cliente).pipe(
+      tap(() => this.reloadCliente$.next(true))
+    );
+  }
+
+  // Elimina un cliente por id (DELETE) y fuerza recarga
+  eliminarCliente(id: number | string): Observable<unknown> | null {
+    if (!id) return null;
+    const url = `${this.backendUrl}/${id}`;
+    return this.http.delete(url).pipe(
+      tap(() => this.reloadCliente$.next(true))
+    );
   }
 }

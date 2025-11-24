@@ -2,10 +2,10 @@
   "clientes": [
     {
       "id": "679a",
-      "nombre": "Alvaro",
+      "nombre": "Álvaro",
       "apellido1": "Martinez",
       "apellido2": "Sagrista",
-      "direccion": "avenia costa de la luz",
+      "direccion": "avenida costa de la luz",
       "telefono": "635159343",
       "sexo": "hombre"
     },
@@ -14,9 +14,36 @@
       "nombre": "Inma",
       "apellido1": "Ruiz",
       "apellido2": "Rodriguez",
-      "direccion": "647140502",
+      "direccion": "avenida costa de la luz",
       "telefono": "647140502",
       "sexo": "mujer"
+    },
+    {
+      "id": "d5cb",
+      "nombre": "Sandra",
+      "apellido1": "Martinez",
+      "apellido2": "Ruiz",
+      "direccion": "avenida costa de la luz",
+      "telefono": "635159343",
+      "sexo": "mujer"
+    },
+    {
+      "id": "9759",
+      "nombre": "Alejandro",
+      "apellido1": "Martinez",
+      "apellido2": "Ruiz",
+      "direccion": "avenida costa de la luz",
+      "telefono": "635159343",
+      "sexo": "hombre"
+    },
+    {
+      "id": "a1da",
+      "nombre": "javier",
+      "apellido1": "feria",
+      "apellido2": "feria",
+      "direccion": "635159343",
+      "telefono": "635954585",
+      "sexo": "hombre"
     }
   ],
   "configuracion": {

@@ -26,7 +26,7 @@ export class FormUtils {
         case 'maxlength': return `Maximo de ${ errors['maxlength'].requiredLength} caracteres`;
         case 'min': return `Valor minimo de ${ errors['min'].min}`;
         case 'max': return `Valor maximo de ${ errors['max'].max}`;
-        case 'pattern': return 'Solo se permiten números';
+        case 'pattern': return 'Formato inválido';
       }
     }
     return null;

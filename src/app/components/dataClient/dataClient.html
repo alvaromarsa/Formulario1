@@ -1,43 +1,129 @@
 <navbar/>
 
+<div *ngIf="message" class="p-3 mb-4 rounded bg-green-50 text-green-700">{{ message }}</div>
+
 <div class="p-6 bg-white shadow-xl rounded-lg">
   <h2 class="text-2xl font-bold mb-4 text-gray-800">📋 Clientes Registrados</h2>
 
-  @if (clientes$ | async; as clientes) {
+  <ng-container *ngIf="clientes$ | async as clientes">
 
-    @if (clientes.length === 0) {
+    <ng-container *ngIf="clientes.length === 0">
       <p class="text-gray-500 border p-3 rounded-md bg-yellow-50">
         Aún no hay clientes. ¡Guarda tu primer cliente en el formulario!
       </p>
-    }
+    </ng-container>
 
-    @if (clientes.length > 0) {
-      <table class="min-w-full divide-y divide-gray-200">
+    <ng-container *ngIf="clientes.length > 0">
+      <table class="min-w-full divide-y divide-gray-200 table-fixed">
+        <colgroup>
+          <col style="width:30%" />
+          <col style="width:15%" />
+          <col style="width:30%" />
+          <col style="width:10%" />
+          <col style="width:15%" />
+        </colgroup>
         <thead class="bg-gray-50">
           <tr>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre Completo</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Teléfono</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Direccion</th>
             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sexo</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
 
-          @for (cliente of clientes; track cliente.id) {
-            <tr class="hover:bg-gray-100 transition duration-150">
+          <tr *ngFor="let cliente of clientes" class="hover:bg-gray-100 transition duration-150 align-top">
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{ cliente.nombre }} {{ cliente.apellido1 }} {{ cliente.apellido2 }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ cliente.telefono }}</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ cliente.direccion }}</td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ cliente.sexo | titlecase }}</td>
-            </tr>
-          }
-          @empty {
-            <p>Cargando datos del servidor...</p>
-          }
+              <ng-container *ngIf="editingId === cliente.id; else showName">
+                <ng-container *ngIf="editForm as form">
+                  <div [formGroup]="form" class="flex items-start gap-2 whitespace-nowrap" style="min-height:3.2rem;">
+                  <div class="flex flex-col">
+                    <input formControlName="nombre" class="border rounded px-2 py-1 text-sm h-8 max-w-full truncate" style="width:6.5rem;" type="text" title="{{ editedCliente?.nombre }}" [ngClass]="{'border-red-500': fieldHasError('nombre')}" />
+                    <div *ngIf="fieldHasError('nombre')" class="text-red-500 text-xs mt-1">{{ getFieldError(form, 'nombre') }}</div>
+                  </div>
+
+                  <div class="flex flex-col">
+                    <input formControlName="apellido1" class="border rounded px-2 py-1 text-sm h-8 max-w-full truncate" style="width:6rem;" type="text" title="{{ editedCliente?.apellido1 }}" [ngClass]="{'border-red-500': fieldHasError('apellido1')}" />
+                    <div *ngIf="fieldHasError('apellido1')" class="text-red-500 text-xs mt-1">{{ getFieldError(form, 'apellido1') }}</div>
+                  </div>
+
+                  <div class="flex flex-col">
+                    <input formControlName="apellido2" class="border rounded px-2 py-1 text-sm h-8 max-w-full truncate" style="width:6rem;" type="text" title="{{ editedCliente?.apellido2 }}" [ngClass]="{'border-red-500': fieldHasError('apellido2')}" />
+                    <div *ngIf="fieldHasError('apellido2')" class="text-red-500 text-xs mt-1">{{ getFieldError(form, 'apellido2') }}</div>
+                  </div>
+                  </div>
+                </ng-container>
+              </ng-container>
+              <ng-template #showName>{{ cliente.nombre }} {{ cliente.apellido1 }} {{ cliente.apellido2 }}</ng-template>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <ng-container *ngIf="editingId === cliente.id; else showPhone">
+                <ng-container *ngIf="editForm as form">
+                  <div [formGroup]="form" class="flex flex-col" style="min-height:3.2rem;">
+                    <input formControlName="telefono" class="border rounded px-2 py-1 w-full h-8" type="text" (input)="onInput('telefono', $any($event.target).value)" [ngClass]="{'border-red-500': fieldHasError('telefono')}" />
+                    <div *ngIf="fieldHasError('telefono')" class="text-red-500 text-xs mt-1">{{ getFieldError(form, 'telefono') }}</div>
+                  </div>
+                </ng-container>
+              </ng-container>
+              <ng-template #showPhone>{{ cliente.telefono }}</ng-template>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <ng-container *ngIf="editingId === cliente.id; else showAddress">
+                <ng-container *ngIf="editForm as form">
+                  <div [formGroup]="form" class="flex flex-col" style="min-height:3.2rem; justify-content:flex-start;">
+                    <input formControlName="direccion" class="border rounded px-2 py-1 w-full h-8" type="text" [ngClass]="{'border-red-500': fieldHasError('direccion')}" />
+                    <div *ngIf="fieldHasError('direccion')" class="text-red-500 text-xs mt-1">{{ getFieldError(form, 'direccion') }}</div>
+                  </div>
+                </ng-container>
+              </ng-container>
+              <ng-template #showAddress>{{ cliente.direccion }}</ng-template>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <ng-container *ngIf="editingId === cliente.id; else showSex">
+                <select class="border rounded px-2 py-1" (change)="updateField('sexo', $any($event.target).value)" [value]="editedCliente?.sexo">
+                  <option value="hombre">Hombre</option>
+                  <option value="mujer">Mujer</option>
+                </select>
+              </ng-container>
+              <ng-template #showSex>{{ cliente.sexo | titlecase }}</ng-template>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <ng-container *ngIf="editingId === cliente.id; else showActions">
+                <div class="flex gap-2">
+                  <button type="button" class="px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 disabled:opacity-50" (click)="aceptarEdicion()" [disabled]="!isRowValid()">Aceptar</button>
+                  <button type="button" class="px-3 py-1 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400" (click)="cancelarEdicion()">Cancelar</button>
+                </div>
+              </ng-container>
+              <ng-template #showActions>
+                <div class="flex gap-2">
+                <button
+                  type="button"
+                  class="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+                  (click)="editarCliente(cliente)">
+                  Modificar
+                </button>
+
+                <button
+                  type="button"
+                  class="px-3 py-1 bg-red-600 text-white rounded-md hover:bg-red-700 transition flex items-center"
+                  (click)="borrarCliente(cliente)"
+                  [disabled]="deletingId === cliente.id">
+                  <svg *ngIf="deletingId === cliente.id" class="animate-spin h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                  </svg>
+                  <span *ngIf="deletingId !== cliente.id">Eliminar</span>
+                  <span *ngIf="deletingId === cliente.id">Eliminando...</span>
+                </button>
+                </div>
+              </ng-template>
+            </td>
+          </tr>
+
         </tbody>
       </table>
-    }
-  }
+    </ng-container>
+
+  </ng-container>
 </div>
