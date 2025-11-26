@@ -21,19 +21,21 @@ export class FormService {
   public formularioCliente = new FormGroup({
     nombre: new FormControl('', [
       Validators.required,
-      Validators.pattern('[a-zA-Z ]*'),
+      // Allow Unicode letters (including accents), spaces, apostrophes and hyphens
+      Validators.pattern(/^[\p{L}\s'-]+$/u),
     ]),
     apellido1: new FormControl('', [
       Validators.required,
-      Validators.pattern('[a-zA-Z ]*'),
+      Validators.pattern(/^[\p{L}\s'-]+$/u),
     ]),
     apellido2: new FormControl('', [
       Validators.required,
-      Validators.pattern('[a-zA-Z ]*'),
+      Validators.pattern(/^[\p{L}\s'-]+$/u),
     ]),
     direccion: new FormControl('', [
       Validators.required,
-      Validators.pattern('[a-zA-Z ]*'),
+      // Allow letters with accents, digits and common address punctuation
+      Validators.pattern(/^[\p{L}0-9\s\.,#\-ºª'\/]+$/u),
     ]),
     telefono: new FormControl('',[
       Validators.required,

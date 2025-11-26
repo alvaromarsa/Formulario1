@@ -37,13 +37,31 @@
       "sexo": "hombre"
     },
     {
-      "id": "a1da",
-      "nombre": "javier",
-      "apellido1": "feria",
-      "apellido2": "feria",
-      "direccion": "635159343",
-      "telefono": "635954585",
+      "id": "adf6",
+      "nombre": "cecilio Andrés",
+      "apellido1": "Martínez",
+      "apellido2": "García",
+      "direccion": "calle Marina",
+      "telefono": "641646640",
       "sexo": "hombre"
+    },
+    {
+      "id": "f310",
+      "nombre": "Concepción",
+      "apellido1": "Sagristá",
+      "apellido2": "Verdugo",
+      "direccion": "calle marina",
+      "telefono": "619458585",
+      "sexo": "mujer"
+    },
+    {
+      "id": "e171",
+      "nombre": "Nuria",
+      "apellido1": "Martínez",
+      "apellido2": "Sagrista",
+      "direccion": "calle caquita",
+      "telefono": "635857471",
+      "sexo": "mujer"
     }
   ],
   "configuracion": {

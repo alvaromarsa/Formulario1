@@ -18,6 +18,7 @@ export class Form1Component {
   public formService = inject(FormService);
   public formUtils = FormUtils;
   public isLoading: boolean = false;
+  public message: string | null = null;
 
   onSubmit(){
 
@@ -33,10 +34,14 @@ export class Form1Component {
           // Aquí TypeScript sabe que 'respuesta' tiene 'id', 'nombre', etc.
           console.log(`✅ Cliente ID ${respuesta.id} guardado con éxito.`, respuesta);
           this.formService.formularioCliente.reset();
+          this.message = 'Cliente creado correctamente.';
+          window.setTimeout(() => this.message = null, 3500);
           this.isLoading = false;
         },
         error: (error) => {
           console.error('❌ Error al guardar:', error);
+          this.message = 'Error al crear el cliente';
+          window.setTimeout(() => this.message = null, 4000);
           this.isLoading = false;
         }
       });

@@ -85,11 +85,12 @@
 
 
 
-    <button type="submit"
-            [disabled]="formService.formularioCliente.invalid"
+        <button type="submit"
+          [disabled]="formService.formularioCliente.invalid || isLoading"
             class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white transition duration-150 ease-in-out mt-4"
-            [ngClass]="{'bg-blue-600 hover:bg-blue-700': formService.formularioCliente.valid, 'bg-gray-400 cursor-not-allowed': formService.formularioCliente.invalid}">
+          [ngClass]="{'bg-blue-600 hover:bg-blue-700': formService.formularioCliente.valid && !isLoading, 'bg-gray-400 cursor-not-allowed': formService.formularioCliente.invalid || isLoading}">
       Enviar Datos (Servicio)
     </button>
+        <div *ngIf="message" class="p-3 mt-3 rounded bg-green-50 text-green-700 text-center">{{ message }}</div>
   </form>
 </div>
